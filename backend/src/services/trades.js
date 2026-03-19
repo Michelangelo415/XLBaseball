@@ -10,7 +10,7 @@ const { format } = require('date-fns');
  */
 const proposeTrade = async (proposingTeamId, receivingTeamId, assetsFrom, assetsTo, notes = '') => {
   // Check trade deadline
-  const { rows: settings } = await db.query('SELECT trade_deadline FROM league_settings WHERE season = 2025');
+  const { rows: settings } = await db.query('SELECT trade_deadline FROM league_settings WHERE season = 2026');
   if (settings.length) {
     const deadline = new Date(settings[0].trade_deadline);
     if (new Date() > deadline) {
@@ -43,7 +43,7 @@ const proposeTrade = async (proposingTeamId, receivingTeamId, assetsFrom, assets
   // Create trade
   const { rows: tradeRows } = await db.query(`
     INSERT INTO trades (proposing_team_id, receiving_team_id, notes, season)
-    VALUES ($1, $2, $3, 2025)
+    VALUES ($1, $2, $3, 2026)
     RETURNING *
   `, [proposingTeamId, receivingTeamId, notes]);
   const trade = tradeRows[0];
@@ -134,7 +134,7 @@ const approveTrade = async (tradeId) => {
       // If prospect, transfer prospect rights too
       await client.query(`
         UPDATE prospect_rights SET team_id = $1
-        WHERE team_id = $2 AND player_mlb_id = $3 AND season = 2025
+        WHERE team_id = $2 AND player_mlb_id = $3 AND season = 2026
       `, [asset.to_team_id, asset.from_team_id, asset.player_mlb_id]);
     }
 

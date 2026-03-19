@@ -294,7 +294,7 @@ const triggerFreeAgentFill = async (date) => {
   const { rows: teams } = await db.query(`
     SELECT t.*, ss.current_rank
     FROM teams t
-    LEFT JOIN season_standings ss ON ss.team_id = t.id AND ss.season = 2025
+    LEFT JOIN season_standings ss ON ss.team_id = t.id AND ss.season = 2026
     ORDER BY ss.current_rank DESC NULLS LAST
   `);
 

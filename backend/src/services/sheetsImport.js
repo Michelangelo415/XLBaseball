@@ -46,7 +46,7 @@ const readSheet = async (spreadsheetId, range = 'A:G') => {
  * Main import function
  * Reads roster sheet and populates DB
  */
-const importRostersFromSheet = async (spreadsheetId, season = 2025) => {
+const importRostersFromSheet = async (spreadsheetId, season = 2026) => {
   const rows = await readSheet(spreadsheetId);
   if (!rows.length) throw new Error('No data found in sheet');
 

@@ -10,7 +10,7 @@ const checkProspectStatus = async () => {
     SELECT pr.*, mp.full_name, mp.mlb_id, mp.mlb_team_id, mp.status
     FROM prospect_rights pr
     JOIN mlb_players mp ON mp.mlb_id = pr.player_mlb_id
-    WHERE pr.status = 'prospect' AND pr.season = 2025
+    WHERE pr.status = 'prospect' AND pr.season = 2026
   `);
 
   for (const prospect of prospects) {
@@ -67,7 +67,7 @@ const handleProspectCalledUp = async (prospect) => {
 const activateProspect = async (teamId, playerMlbId, slotType) => {
   const { rows: rights } = await db.query(`
     SELECT * FROM prospect_rights
-    WHERE team_id = $1 AND player_mlb_id = $2 AND season = 2025
+    WHERE team_id = $1 AND player_mlb_id = $2 AND season = 2026
   `, [teamId, playerMlbId]);
 
   if (!rights.length) {
@@ -97,7 +97,7 @@ const activateProspect = async (teamId, playerMlbId, slotType) => {
   await db.query(`
     UPDATE prospect_rights
     SET status = 'activated', activated_date = CURRENT_DATE
-    WHERE team_id = $1 AND player_mlb_id = $2 AND season = 2025
+    WHERE team_id = $1 AND player_mlb_id = $2 AND season = 2026
   `, [teamId, playerMlbId]);
 
   // Log
@@ -120,7 +120,7 @@ const releaseProspectToFreeAgency = async (teamId, playerMlbId) => {
   // Update rights status
   await db.query(`
     UPDATE prospect_rights SET status = 'became_fa'
-    WHERE team_id = $1 AND player_mlb_id = $2 AND season = 2025
+    WHERE team_id = $1 AND player_mlb_id = $2 AND season = 2026
   `, [teamId, playerMlbId]);
 
   await db.query(`

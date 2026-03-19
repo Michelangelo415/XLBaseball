@@ -16,7 +16,7 @@ router.post('/auth/login', auth.login);
 router.post('/auth/register', auth.register);
 router.get('/auth/me', auth.authenticate, async (req, res) => {
   const { rows: teams } = await db.query(
-    'SELECT * FROM teams WHERE owner_id = $1 AND season = 2025', [req.user.id]
+    'SELECT * FROM teams WHERE owner_id = $1 AND season = 2026', [req.user.id]
   );
   res.json({ user: req.user, team: teams[0] || null });
 });
@@ -25,7 +25,7 @@ router.get('/auth/me', auth.authenticate, async (req, res) => {
 // League / Settings
 // ─────────────────────────────────────────────
 router.get('/league/settings', async (req, res) => {
-  const { rows } = await db.query('SELECT * FROM league_settings WHERE season = 2025');
+  const { rows } = await db.query('SELECT * FROM league_settings WHERE season = 2026');
   res.json(rows[0] || {});
 });
 
@@ -35,7 +35,7 @@ router.get('/league/standings', async (req, res) => {
     FROM season_standings ss
     JOIN teams t ON t.id = ss.team_id
     JOIN users u ON u.id = t.owner_id
-    WHERE ss.season = 2025
+    WHERE ss.season = 2026
     ORDER BY ss.current_rank ASC
   `);
   res.json(rows);
@@ -61,7 +61,7 @@ router.get('/teams', async (req, res) => {
     SELECT t.*, u.name as owner_name, u.email as owner_email
     FROM teams t
     JOIN users u ON u.id = t.owner_id
-    WHERE t.season = 2025
+    WHERE t.season = 2026
     ORDER BY t.name
   `);
   res.json(rows);
@@ -85,7 +85,7 @@ router.get('/teams/:teamId/roster', async (req, res) => {
            mp.games_by_position, mp.rp_starts, mp.rp_converted_to_sp
     FROM roster_slots rs
     JOIN mlb_players mp ON mp.mlb_id = rs.player_id
-    WHERE rs.team_id = $1 AND rs.is_active = true AND rs.season = 2025
+    WHERE rs.team_id = $1 AND rs.is_active = true AND rs.season = 2026
     ORDER BY
       CASE rs.slot_type
         WHEN 'SP' THEN 1 WHEN 'RP' THEN 2 WHEN 'C' THEN 3
@@ -139,12 +139,12 @@ router.post('/teams', auth.authenticate, auth.requireCommissioner, async (req, r
 
   const { rows } = await db.query(`
     INSERT INTO teams (owner_id, name, abbreviation, season)
-    VALUES ($1, $2, $3, 2025) RETURNING *
+    VALUES ($1, $2, $3, 2026) RETURNING *
   `, [owner.id, name, abbreviation]);
 
   // Initialize standings row
   await db.query(`
-    INSERT INTO season_standings (team_id, season) VALUES ($1, 2025) ON CONFLICT DO NOTHING
+    INSERT INTO season_standings (team_id, season) VALUES ($1, 2026) ON CONFLICT DO NOTHING
   `, [rows[0].id]);
 
   res.status(201).json(rows[0]);
@@ -159,7 +159,7 @@ router.get('/players/search', auth.authenticate, async (req, res) => {
   let queryStr = `
     SELECT mp.*, rs.team_id, t.name as fantasy_team_name
     FROM mlb_players mp
-    LEFT JOIN roster_slots rs ON rs.player_id = mp.mlb_id AND rs.is_active = true AND rs.season = 2025
+    LEFT JOIN roster_slots rs ON rs.player_id = mp.mlb_id AND rs.is_active = true AND rs.season = 2026
     LEFT JOIN teams t ON t.id = rs.team_id
     WHERE 1=1
   `;
@@ -215,7 +215,7 @@ router.get('/players/:mlbId/stats', async (req, res) => {
     WHERE player_mlb_id = $1
     AND game_date >= $2
     GROUP BY stat_type
-  `, [req.params.mlbId, `${season || 2025}-01-01`]);
+  `, [req.params.mlbId, `${season || 2026}-01-01`]);
   res.json(rows);
 });
 
@@ -228,14 +228,14 @@ router.post('/roster/add', auth.authenticate, auth.requireCommissioner, async (r
   // Count current players in this slot type
   const { rows: existing } = await db.query(`
     SELECT COUNT(*) as count FROM roster_slots
-    WHERE team_id = $1 AND slot_type = $2 AND is_active = true AND season = 2025
+    WHERE team_id = $1 AND slot_type = $2 AND is_active = true AND season = 2026
   `, [teamId, slotType]);
 
   const slotNumber = parseInt(existing[0].count) + 1;
 
   await db.query(`
     INSERT INTO roster_slots (team_id, slot_type, slot_number, player_id, roster_level, season, acquired_via)
-    VALUES ($1, $2, $3, $4, $5, 2025, 'commissioner')
+    VALUES ($1, $2, $3, $4, $5, 2026, 'commissioner')
   `, [teamId, slotType, slotNumber, playerMlbId, rosterLevel || 'MLB1']);
 
   await db.query(`
@@ -251,7 +251,7 @@ router.post('/roster/drop', auth.authenticate, async (req, res) => {
 
   await db.query(`
     UPDATE roster_slots SET is_active = false
-    WHERE team_id = $1 AND player_id = $2 AND season = 2025
+    WHERE team_id = $1 AND player_id = $2 AND season = 2026
   `, [teamId, playerMlbId]);
 
   res.json({ success: true });
@@ -263,7 +263,7 @@ router.post('/roster/convert-rp-to-sp', auth.authenticate, async (req, res) => {
   // Move player from RP slot to SP slot
   await db.query(`
     UPDATE roster_slots SET slot_type = 'SP'
-    WHERE team_id = $1 AND player_id = $2 AND slot_type = 'RP' AND season = 2025
+    WHERE team_id = $1 AND player_id = $2 AND slot_type = 'RP' AND season = 2026
   `, [teamId, playerMlbId]);
 
   await db.query(`
@@ -284,7 +284,7 @@ router.get('/trades', auth.authenticate, async (req, res) => {
     FROM trades tr
     JOIN teams pt ON pt.id = tr.proposing_team_id
     JOIN teams rt ON rt.id = tr.receiving_team_id
-    WHERE tr.season = 2025
+    WHERE tr.season = 2026
   `;
   const params = [];
   if (status) {
@@ -331,7 +331,7 @@ router.get('/prospects', auth.authenticate, async (req, res) => {
     FROM prospect_rights pr
     JOIN mlb_players mp ON mp.mlb_id = pr.player_mlb_id
     JOIN teams t ON t.id = pr.team_id
-    WHERE pr.season = 2025
+    WHERE pr.season = 2026
     ORDER BY pr.status, mp.last_name
   `);
   res.json(rows);

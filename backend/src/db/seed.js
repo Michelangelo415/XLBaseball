@@ -20,12 +20,12 @@ async function seed() {
 
   // Create 6 placeholder team owners + teams
   const teams = [
-    { name: 'Team Alpha', abbr: 'ALP', ownerEmail: 'alpha@league.com', ownerName: 'Owner Alpha' },
-    { name: 'Team Bravo', abbr: 'BRV', ownerEmail: 'bravo@league.com', ownerName: 'Owner Bravo' },
-    { name: 'Team Charlie', abbr: 'CHL', ownerEmail: 'charlie@league.com', ownerName: 'Owner Charlie' },
-    { name: 'Team Delta', abbr: 'DLT', ownerEmail: 'delta@league.com', ownerName: 'Owner Delta' },
-    { name: 'Team Echo', abbr: 'ECH', ownerEmail: 'echo@league.com', ownerName: 'Owner Echo' },
-    { name: 'Team Foxtrot', abbr: 'FXT', ownerEmail: 'foxtrot@league.com', ownerName: 'Owner Foxtrot' },
+    { name: 'Team 1', abbr: 'TM1', ownerEmail: 'team1@xlbaseball.com', ownerName: 'Owner 1' },
+    { name: 'Team 2', abbr: 'TM2', ownerEmail: 'team2@xlbaseball.com', ownerName: 'Owner 2' },
+    { name: 'Team 3', abbr: 'TM3', ownerEmail: 'team3@xlbaseball.com', ownerName: 'Owner 3' },
+    { name: 'Team 4', abbr: 'TM4', ownerEmail: 'team4@xlbaseball.com', ownerName: 'Owner 4' },
+    { name: 'Team 5', abbr: 'TM5', ownerEmail: 'team5@xlbaseball.com', ownerName: 'Owner 5' },
+    { name: 'Team 6', abbr: 'TM6', ownerEmail: 'team6@xlbaseball.com', ownerName: 'Owner 6' },
   ];
 
   for (const t of teams) {
@@ -41,14 +41,14 @@ async function seed() {
 
     const { rows: teamRows } = await pool.query(`
       INSERT INTO teams (owner_id, name, abbreviation, season)
-      VALUES ($1, $2, $3, 2025)
+      VALUES ($1, $2, $3, 2026)
       ON CONFLICT (name, season) DO UPDATE SET owner_id = EXCLUDED.owner_id
       RETURNING id
     `, [ownerId, t.name, t.abbr]);
 
     if (teamRows.length > 0) {
       await pool.query(`
-        INSERT INTO season_standings (team_id, season) VALUES ($1, 2025) ON CONFLICT DO NOTHING
+        INSERT INTO season_standings (team_id, season) VALUES ($1, 2026) ON CONFLICT DO NOTHING
       `, [teamRows[0].id]);
     }
 

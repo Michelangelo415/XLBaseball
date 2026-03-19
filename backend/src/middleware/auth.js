@@ -95,7 +95,7 @@ const login = async (req, res) => {
 
   // Get associated team
   const { rows: teams } = await db.query(
-    'SELECT * FROM teams WHERE owner_id = $1 AND season = 2025', [user.id]
+    'SELECT * FROM teams WHERE owner_id = $1 AND season = 2026', [user.id]
   );
 
   const token = generateToken(user);

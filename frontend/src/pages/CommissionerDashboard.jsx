@@ -54,7 +54,7 @@ export default function CommissionerDashboard() {
   ];
 
   return (
-    <Layout title="Commissioner Dashboard" subtitle="League control center — 2025 season">
+    <Layout title="Commissioner Dashboard" subtitle="League control center — 2026 season">
       {/* Urgent Actions */}
       {urgentItems.length > 0 && (
         <div style={{ marginBottom: 24 }}>

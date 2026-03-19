@@ -44,7 +44,7 @@ export default function TeamsPage() {
   return (
     <Layout
       title="Teams & Rosters"
-      subtitle={`${teams.length} teams · 2025 season`}
+      subtitle={`${teams.length} teams · 2026 season`}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <div />

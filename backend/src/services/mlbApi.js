@@ -144,7 +144,7 @@ const getPlayer = async (mlbId) => {
 /**
  * Get player's position eligibility based on games played (last 3 years)
  */
-const getPlayerPositionStats = async (mlbId, seasons = [2023, 2024, 2025]) => {
+const getPlayerPositionStats = async (mlbId, seasons = [2024, 2025, 2026]) => {
   const positionGames = {};
 
   for (const season of seasons) {

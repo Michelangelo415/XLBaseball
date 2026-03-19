@@ -54,7 +54,7 @@ export const createTeam = (data) => api.post('/teams', data);
 // ─────────────────────────────────────────────
 export const searchPlayers = (params) => api.get('/players/search', { params });
 export const getPlayer = (mlbId) => api.get(`/players/${mlbId}`);
-export const getPlayerStats = (mlbId, season) => api.get(`/players/${mlbId}/stats?season=${season || 2025}`);
+export const getPlayerStats = (mlbId, season) => api.get(`/players/${mlbId}/stats?season=${season || 2026}`);
 
 // ─────────────────────────────────────────────
 // Roster

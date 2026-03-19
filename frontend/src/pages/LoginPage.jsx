@@ -62,7 +62,7 @@ export default function LoginPage() {
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             color: 'var(--text-primary)',
-          }}>Fantasy League</div>
+          }}>XL Baseball</div>
           <div style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.65rem',
@@ -70,7 +70,7 @@ export default function LoginPage() {
             textTransform: 'uppercase',
             color: 'var(--accent)',
             marginTop: 6,
-          }}>Commissioner Engine · 2025</div>
+          }}>Commissioner Engine · 2026</div>
         </div>
 
         {/* Card */}

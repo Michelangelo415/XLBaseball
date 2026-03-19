@@ -196,7 +196,7 @@ const scoreTeamsForDate = async (date) => {
   }
 
   // Get all fantasy teams
-  const { rows: fantasyTeams } = await db.query('SELECT * FROM teams WHERE season = $1', [2025]);
+  const { rows: fantasyTeams } = await db.query('SELECT * FROM teams WHERE season = $1]);
 
   const teamDayScores = [];
 
@@ -305,7 +305,7 @@ const updateStandings = async () => {
       total_saves, total_home_runs, total_sp_points, last_updated)
     SELECT
       t.id,
-      2025,
+      2026,
       COALESCE(SUM(dts.rank_points), 0),
       COALESCE(SUM(dts.fantasy_points), 0),
       COALESCE((
@@ -327,7 +327,7 @@ const updateStandings = async () => {
       NOW()
     FROM teams t
     LEFT JOIN daily_team_scores dts ON dts.team_id = t.id
-    WHERE t.season = 2025
+    WHERE t.season = 2026
     GROUP BY t.id
     ON CONFLICT (team_id, season) DO UPDATE SET
       total_rank_points = EXCLUDED.total_rank_points,
@@ -346,7 +346,7 @@ const updateStandings = async () => {
           ORDER BY total_rank_points DESC, total_saves DESC,
           total_home_runs DESC, total_sp_points DESC
         ) AS rk
-      FROM season_standings WHERE season = 2025
+      FROM season_standings WHERE season = 2026
     )
     UPDATE season_standings ss SET current_rank = r.rk
     FROM ranked r WHERE ss.id = r.id

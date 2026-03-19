@@ -36,7 +36,7 @@ export default function PlayerSearchPage() {
     try {
       const [detail, stats] = await Promise.all([
         getPlayer(player.mlb_id),
-        getPlayerStats(player.mlb_id, 2025),
+        getPlayerStats(player.mlb_id, 2026),
       ]);
       setPlayerDetail(detail.data);
       setPlayerStats(stats.data);
@@ -159,11 +159,11 @@ export default function PlayerSearchPage() {
                     </div>
                   </div>
 
-                  {/* 2025 Stats */}
+                  {/* 2026 Stats */}
                   {(batting || pitching) && (
                     <div style={{ marginBottom: 16 }}>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>
-                        2025 Fantasy Stats
+                        2026 Fantasy Stats
                       </div>
 
                       {batting && (

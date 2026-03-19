@@ -48,7 +48,7 @@ export default function TradesPage() {
   return (
     <Layout
       title="Trades"
-      subtitle={`${pendingTrades.length} pending review · Trade deadline: Aug 15, 2025`}
+      subtitle={`${pendingTrades.length} pending review · Trade deadline: Aug 15, 2026`}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <div className="tabs" style={{ marginBottom: 0, border: 'none' }}>

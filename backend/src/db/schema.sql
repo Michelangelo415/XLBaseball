@@ -27,7 +27,7 @@ CREATE TABLE teams (
   name VARCHAR(100) NOT NULL,
   abbreviation VARCHAR(10) NOT NULL,
   logo_url VARCHAR(500),
-  season INT NOT NULL DEFAULT 2025,
+  season INT NOT NULL DEFAULT 2026,
   total_fantasy_points DECIMAL(10,2) DEFAULT 0,
   season_rank INT,
   wins INT DEFAULT 0,
@@ -86,7 +86,7 @@ CREATE TABLE roster_slots (
   is_active BOOLEAN DEFAULT true,
   acquired_date DATE,
   acquired_via VARCHAR(30),             -- draft, trade, waiver, free_agent
-  season INT NOT NULL DEFAULT 2025,
+  season INT NOT NULL DEFAULT 2026,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   UNIQUE(team_id, slot_type, slot_number, season)
@@ -155,7 +155,7 @@ CREATE TABLE daily_team_scores (
 CREATE TABLE season_standings (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   team_id UUID NOT NULL REFERENCES teams(id),
-  season INT NOT NULL DEFAULT 2025,
+  season INT NOT NULL DEFAULT 2026,
   total_rank_points DECIMAL(10,2) DEFAULT 0,
   total_fantasy_points DECIMAL(10,2) DEFAULT 0,
   total_saves INT DEFAULT 0,            -- tiebreaker #1
@@ -216,7 +216,7 @@ CREATE TABLE trades (
   completed_at TIMESTAMPTZ,
   commissioner_approved BOOLEAN,
   notes TEXT,
-  season INT NOT NULL DEFAULT 2025
+  season INT NOT NULL DEFAULT 2026
 );
 
 CREATE TABLE trade_assets (
@@ -242,7 +242,7 @@ CREATE TABLE free_agent_claims (
   priority_order INT,                   -- worst record goes first
   requested_at TIMESTAMPTZ DEFAULT NOW(),
   processed_at TIMESTAMPTZ,
-  season INT NOT NULL DEFAULT 2025
+  season INT NOT NULL DEFAULT 2026
 );
 
 -- ============================================================
@@ -259,7 +259,7 @@ CREATE TABLE prospect_rights (
   veteran_notification_date DATE,       -- when team was notified of veteran status
   decision_deadline DATE,               -- deadline to activate or release
   activated_date DATE,
-  season INT NOT NULL DEFAULT 2025,
+  season INT NOT NULL DEFAULT 2026,
   UNIQUE(player_mlb_id, season)
 );
 
@@ -269,7 +269,7 @@ CREATE TABLE prospect_rights (
 
 CREATE TABLE draft_sessions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  season INT NOT NULL DEFAULT 2025,
+  season INT NOT NULL DEFAULT 2026,
   draft_type VARCHAR(20) DEFAULT 'standard' CHECK (draft_type IN ('standard', 'mini', 'prospect')),
   status VARCHAR(20) DEFAULT 'scheduled' CHECK (status IN ('scheduled', 'active', 'paused', 'completed')),
   draft_order JSONB,                    -- [team_id, team_id, ...]
@@ -300,9 +300,9 @@ CREATE TABLE draft_picks (
 
 CREATE TABLE league_settings (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  season INT NOT NULL DEFAULT 2025,
-  trade_deadline DATE DEFAULT '2025-08-15',
-  roster_lock_date DATE DEFAULT '2025-09-15',
+  season INT NOT NULL DEFAULT 2026,
+  trade_deadline DATE DEFAULT '2026-08-15',
+  roster_lock_date DATE DEFAULT '2026-09-15',
   min_teams_for_scoring INT DEFAULT 20,  -- MLB teams; if fewer in action, combine days
   season_start DATE,
   season_end DATE,
@@ -370,4 +370,4 @@ CREATE INDEX idx_prospect_rights_team ON prospect_rights(team_id, season);
 -- ============================================================
 
 INSERT INTO league_settings (season, trade_deadline, roster_lock_date, season_start, season_end)
-VALUES (2025, '2025-08-15', '2025-09-15', '2025-03-27', '2025-09-28');
+VALUES (2026, '2026-08-15', '2026-09-15', '2026-03-27', '2026-09-28');

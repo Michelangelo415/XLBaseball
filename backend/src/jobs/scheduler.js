@@ -32,7 +32,7 @@ const registerJobs = () => {
     const today = format(new Date(), 'yyyy-MM-dd');
     console.log(`[Cron] Building lineups for ${today}`);
     try {
-      const { rows: teams } = await db.query('SELECT * FROM teams WHERE season = 2025');
+      const { rows: teams } = await db.query('SELECT * FROM teams WHERE season = 2026');
       for (const team of teams) {
         await lineup.buildDailyLineup(team.id, today);
         await lineup.selectSPsForDate(team.id, today);
@@ -64,7 +64,7 @@ const registerJobs = () => {
   cron.schedule('0 0 * * *', async () => {
     const today = format(new Date(), 'yyyy-MM-dd');
     const { rows: settings } = await db.query(
-      'SELECT roster_lock_date FROM league_settings WHERE season = 2025'
+      'SELECT roster_lock_date FROM league_settings WHERE season = 2026'
     );
     if (settings.length && today >= settings[0].roster_lock_date) {
       await db.query(`

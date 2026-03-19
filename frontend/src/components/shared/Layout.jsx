@@ -29,8 +29,8 @@ export default function Layout({ children, title, subtitle, actions }) {
     <div className="app-layout">
       <aside className="sidebar">
         <div className="sidebar-logo">
-          <div className="league-name">Fantasy<br />Baseball</div>
-          <div className="season-badge">⚾ Season 2025</div>
+          <div className="league-name">XL<br />Baseball</div>
+          <div className="season-badge">⚾ Season 2026</div>
         </div>
 
         <nav className="sidebar-nav">

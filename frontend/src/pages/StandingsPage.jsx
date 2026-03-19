@@ -22,7 +22,7 @@ export default function StandingsPage() {
   return (
     <Layout
       title="Standings"
-      subtitle={`2025 Season · Updated ${format(new Date(), 'MMM d, h:mm a')}`}
+      subtitle={`XL Baseball · 2026 Season · Updated ${format(new Date(), 'MMM d, h:mm a')}`}
     >
       {/* Top 3 podium */}
       {standings.length >= 3 && (
