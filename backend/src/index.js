@@ -7,9 +7,27 @@ const compression = require('compression');
 const fs = require('fs');
 const path = require('path');
 
-const apiRouter = require('./routes/api');
-const { registerJobs } = require('./jobs/scheduler');
-const { pool } = require('./db');
+let apiRouter, registerJobs, pool;
+try {
+  apiRouter = require('./routes/api');
+  console.log('[Startup] ✅ API router loaded');
+} catch (err) {
+  console.error('[Startup] ❌ Failed to load API router:', err.message);
+  console.error(err.stack);
+  process.exit(1);
+}
+try {
+  ({ registerJobs } = require('./jobs/scheduler'));
+} catch (err) {
+  console.error('[Startup] ❌ Failed to load scheduler:', err.message);
+  process.exit(1);
+}
+try {
+  ({ pool } = require('./db'));
+} catch (err) {
+  console.error('[Startup] ❌ Failed to load DB:', err.message);
+  process.exit(1);
+}
 
 const app = express();
 const PORT = process.env.PORT || 4000;
