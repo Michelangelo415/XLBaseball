@@ -86,8 +86,19 @@ async function runMigrationsIfNeeded() {
 app.use(helmet());
 app.use(compression());
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:3000',
+  'https://xlbaseball-app.onrender.com',
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    if (origin.endsWith('.onrender.com')) return callback(null, true);
+    callback(new Error('CORS blocked: ' + origin));
+  },
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
