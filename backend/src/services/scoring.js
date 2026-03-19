@@ -196,7 +196,7 @@ const scoreTeamsForDate = async (date) => {
   }
 
   // Get all fantasy teams
-  const { rows: fantasyTeams } = await db.query('SELECT * FROM teams WHERE season = $1]);
+  const { rows: fantasyTeams } = await db.query('SELECT * FROM teams WHERE season = $1', [2026]);
 
   const teamDayScores = [];
 
